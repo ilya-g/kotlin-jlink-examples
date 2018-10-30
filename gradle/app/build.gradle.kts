@@ -5,14 +5,18 @@ plugins {
     kotlin("jvm")
 }
 
+val kotlinVersion: String by rootProject.extra
+
 val moduleName by extra("org.test.modularApp")
 
 val javaHome = System.getProperty("java.home")
 
 dependencies {
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3-SNAPSHOT:modular")
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3-SNAPSHOT:modular")
-    api("org.jetbrains.kotlin:kotlin-stdlib:1.3-SNAPSHOT:modular")
+    // we just list all modular artifacts here first,
+    // so that automatic module artifacts of stdlib from transitive dependencies are ignored
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion:modular")
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion:modular")
+    api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion:modular")
     // Cannot use project dependency, need to publish it to mavenLocal and use it from there
 //    implementation(project(":library"))
     implementation("org.test:modularLib:1.0-SNAPSHOT")
@@ -28,14 +32,6 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks {
-    "compileKotlin"(KotlinCompile::class) {
-        doFirst {
-            // Currently we have to put all the dependencies in classpath
-//            println(classpath.toList())
-//            kotlinOptions.freeCompilerArgs += "-Xmodule-path=${classpath.asPath}"
-//            classpath = files()
-        }
-    }
     "compileJava"(JavaCompile::class) {
         inputs.property("moduleName", moduleName)
         doFirst {
@@ -67,3 +63,6 @@ tasks {
         }
     }
 }
+
+// to write module version into module-info, execute right after making Jar:
+// "%JAVA_HOME%/bin/jar.exe" --update --module-version=1.0-SNAPSHOT --file build\libs\app-1.0-SNAPSHOT.jar -C build/classes/java/main module-info.class

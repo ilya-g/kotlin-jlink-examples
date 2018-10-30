@@ -1,9 +1,11 @@
 buildscript {
+    val kotlinVersion by extra("1.3.20-dev-1198")
     repositories {
+        maven(url = "https://dl.bintray.com/kotlin/kotlin-dev")
         mavenLocal()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3-SNAPSHOT")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 
@@ -13,7 +15,8 @@ allprojects {
 
 
     repositories {
-        mavenLocal()
+        maven(url = "https://dl.bintray.com/kotlin/kotlin-dev")
+        mavenLocal()  // is currently required for publishing modularLib to use it in modularApp
         mavenCentral()
     }
 }
