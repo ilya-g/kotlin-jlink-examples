@@ -13,6 +13,10 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!--
+         Here goes a boilerplate part: we need to exclude all kotlin non-modular library artifacts coming
+         as a transitive dependency from every dependency of this project.
+        -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
@@ -76,6 +80,8 @@
         <plugins>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
+                <!-- We need to remove the default execution of maven-jar-plugin, otherwise there will be a clash of
+                the artifacts produced by this plugin and by maven-jlink-plugin -->
                 <executions>
                     <execution>
                         <id>default-jar</id>
@@ -92,9 +98,6 @@
                         <goals><goal>jlink</goal></goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <verbose>true</verbose>
-                </configuration>
             </plugin>
 
         </plugins>
