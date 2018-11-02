@@ -1,5 +1,5 @@
 buildscript {
-    val kotlinVersion by extra("1.3.20-dev-1198")
+    val kotlinVersion by extra("1.3.20-dev-1397")
     repositories {
         maven(url = "https://dl.bintray.com/kotlin/kotlin-dev")
         mavenLocal()
