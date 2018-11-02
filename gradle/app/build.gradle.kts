@@ -32,6 +32,11 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks {
+    "compileKotlin"(KotlinCompile::class) {
+        // ensure library is published to maven local
+        dependsOn(tasks.getByPath(":library:publishToMavenLocal"))
+    }
+
     "compileJava"(JavaCompile::class) {
         inputs.property("moduleName", moduleName)
         doFirst {
