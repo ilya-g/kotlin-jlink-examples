@@ -1,7 +1,7 @@
 buildscript {
-    val kotlinVersion by extra("1.3.20-dev-1397")
+    val kotlinVersion by extra("1.3.20-eap-25")
     repositories {
-        maven(url = "https://dl.bintray.com/kotlin/kotlin-dev")
+        maven(url = "https://dl.bintray.com/kotlin/kotlin-eap")
         mavenLocal()
     }
     dependencies {
@@ -15,7 +15,7 @@ allprojects {
 
 
     repositories {
-        maven(url = "https://dl.bintray.com/kotlin/kotlin-dev")
+        maven(url = "https://dl.bintray.com/kotlin/kotlin-eap")
         mavenLocal()  // is currently required for publishing modularLib to use it in modularApp
         mavenCentral()
     }
