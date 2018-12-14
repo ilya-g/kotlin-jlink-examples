@@ -10,6 +10,10 @@ modular artifacts rather than in automatic artifacts that are listed later in th
 **Caveat**: there's a problem in Gradle with depending on a library project in modular Java environment. 
 To workaround that we have to publish that library artifact first to mavenLocal, then depend on that library in mavenLocal 
 by its artifact coordinates.
+
+### Build instructions
+   
+You need to set `JAVA_HOME` environment variable to the path to JDK-9 or greater.
    
 You can build or jlink the application as following:
 
