@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.3.20-eap-25</kotlin.version>
+        <kotlin.version>1.3.21</kotlin.version>
         <junit.version>4.12</junit.version>
     </properties>
 
@@ -21,20 +21,6 @@
         <module>app</module>
         <module>jlinked</module>
     </modules>
-
-    <!-- repository for kotlin eap builds -->
-    <repositories>
-        <repository>
-            <id>bintray-dev</id>
-            <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>bintray-dev</id>
-            <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <build>
         <pluginManagement>
