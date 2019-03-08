@@ -34,7 +34,7 @@ tasks.withType<KotlinCompile> {
 tasks {
     "compileKotlin"(KotlinCompile::class) {
         // ensure library is published to maven local
-        dependsOn(tasks.getByPath(":library:publishToMavenLocal"))
+        dependsOn(":library:publishToMavenLocal")
     }
 
     "compileJava"(JavaCompile::class) {
@@ -53,15 +53,16 @@ tasks {
     val jlink by registering(Exec::class) {
         val outputDir by extra("$buildDir/jlink")
         inputs.files(configurations.runtimeClasspath)
-        inputs.files(jar.archivePath)
+        inputs.files(jar.archiveFile)
         outputs.dir(outputDir)
         dependsOn(jar)
         doFirst {
-            println(configurations.runtimeClasspath.toList())
+            val runtimeClasspath = configurations.runtimeClasspath.get()
+            println(runtimeClasspath.toList())
             delete(outputDir)
             commandLine("$javaHome/bin/jlink",
                 "--module-path",
-                listOf("$javaHome/jmods/", configurations.runtimeClasspath.asPath, jar.archivePath).joinToString(File.pathSeparator),
+                listOf("$javaHome/jmods/", runtimeClasspath.asPath, jar.archiveFile.get()).joinToString(File.pathSeparator),
                 "--add-modules", moduleName,
                 "--output", outputDir
             )
