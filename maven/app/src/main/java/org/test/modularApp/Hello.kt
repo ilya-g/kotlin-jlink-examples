@@ -9,7 +9,6 @@ fun main() {
 
     val srcText = "modular, modelar, modalar"
     val matches = LibServices.regex.findAll(srcText).forEach { m ->
-        println("${m.value} - ${m.groups[1]?.value}")
-//        println("${m.value} - ${m.groups["letter"]?.value}")
+        println("${m.value} - ${m.groups["letter"]?.value}")
     }
 }
