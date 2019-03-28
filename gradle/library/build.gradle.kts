@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `java-library`
+    // Cannot use java-library plugin for building modular libs, see details in the issue GRADLE-xxxx
+    // `java-library`
     kotlin("jvm")
-    `maven-publish`
 }
 
 base.archivesBaseName = "modularLib"
@@ -32,15 +32,6 @@ tasks {
                 "--patch-module", "$moduleName=${sourceSets["main"].output.asPath}"
             )
             classpath = files()
-        }
-    }
-}
-
-publishing {
-    publications {
-        register("mavenJava", MavenPublication::class) {
-            artifactId = base.archivesBaseName
-            from(components["java"])
         }
     }
 }

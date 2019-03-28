@@ -18,8 +18,7 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion:modular")
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion:modular")
     // Cannot use project dependency, need to publish it to mavenLocal and use it from there
-//    implementation(project(":library"))
-    implementation("org.test:modularLib:1.0-SNAPSHOT")
+    implementation(project(":library"))
     testCompile("junit", "junit", "4.12")
 }
 
@@ -33,8 +32,7 @@ tasks.withType<KotlinCompile> {
 
 tasks {
     "compileKotlin"(KotlinCompile::class) {
-        // ensure library is published to maven local
-        dependsOn(":library:publishToMavenLocal")
+
     }
 
     "compileJava"(JavaCompile::class) {

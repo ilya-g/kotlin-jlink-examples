@@ -14,7 +14,6 @@ allprojects {
 
 
     repositories {
-        mavenLocal()  // is currently required for publishing modularLib to use it in modularApp
         mavenCentral()
     }
 }
