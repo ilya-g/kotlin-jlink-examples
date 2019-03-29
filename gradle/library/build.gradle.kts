@@ -1,7 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    // Cannot use java-library plugin for building modular libs, see details in the issue GRADLE-xxxx
+    // Cannot use java-library plugin for building modular libs, see details in the issue GRADLE-8897:
+    //   https://github.com/gradle/gradle/issues/8897
     // `java-library`
     kotlin("jvm")
 }

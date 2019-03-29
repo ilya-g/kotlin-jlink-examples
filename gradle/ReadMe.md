@@ -7,10 +7,6 @@ while `app` prepends modular versions of these dependencies to the module path.
 This trick makes the Kotlin compiler, Java compiler and jlink find the requested kotlin standard library modules in these 
 modular artifacts rather than in automatic artifacts that are listed later in the module path.
 
-**Caveat**: there's a problem in Gradle with depending on a library project in modular Java environment. 
-To workaround that we have to publish that library artifact first to mavenLocal, then depend on that library in mavenLocal 
-by its artifact coordinates.
-
 ### Build instructions
    
 You need to set `JAVA_HOME` environment variable to the path to JDK-9 or greater.
