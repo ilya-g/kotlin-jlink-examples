@@ -17,7 +17,6 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion:modular")
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion:modular")
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion:modular")
-    // Cannot use project dependency, need to publish it to mavenLocal and use it from there
     implementation(project(":library"))
     testCompile("junit", "junit", "4.12")
 }
