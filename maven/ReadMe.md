@@ -11,7 +11,7 @@ transitive dependencies and add modular jars instead.
 ### Build instructions
 
 You need to set `JAVA_HOME` environment variable to the path to JDK-9 or greater, otherwise jlink won't work.
-The you can run:
+Then you can run:
 
     mvn clean package
     

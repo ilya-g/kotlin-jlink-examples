@@ -12,13 +12,8 @@ val moduleName by extra("org.test.modularApp")
 val javaHome = System.getProperty("java.home")
 
 dependencies {
-    // we just list all modular artifacts here first,
-    // so that automatic module artifacts of stdlib from transitive dependencies are ignored
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion:modular")
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion:modular")
-    api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion:modular")
     implementation(project(":library"))
-    testCompile("junit", "junit", "4.12")
+    testImplementation("junit", "junit", "4.12")
 }
 
 configure<JavaPluginConvention> {
