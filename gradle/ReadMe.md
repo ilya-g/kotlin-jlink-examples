@@ -21,4 +21,4 @@ jlink will craft a Java distribution in `app/build/jlink` directory
 with the only modules that are required for this application.
 To run the application, execute:
     
-    ./app/build/jlink/bin/java -m org.test.modularApp/org.test.modularApp.HelloKt
+    ./app/build/jlink/bin/modularApp

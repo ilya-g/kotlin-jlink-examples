@@ -56,7 +56,8 @@ tasks {
                 "--module-path",
                 listOf("$javaHome/jmods/", runtimeClasspath.asPath, jar.archiveFile.get()).joinToString(File.pathSeparator),
                 "--add-modules", moduleName,
-                "--output", outputDir
+                "--output", outputDir,
+                "--launcher", "modularApp=org.test.modularApp"
             )
         }
     }
