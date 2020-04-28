@@ -1,38 +1,52 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    // Cannot use java-library plugin for building modular libs, see details in the issue GRADLE-8897:
-    //   https://github.com/gradle/gradle/issues/8897
-    // `java-library`
+     `java-library`
     kotlin("jvm")
 }
 
 base.archivesBaseName = "modularLib"
 val moduleName by extra("org.test.modularLib")
 
-
 dependencies {
     api(kotlin("stdlib-jdk8"))
-    testCompile("junit", "junit", "4.12")
 }
 
-configure<JavaPluginConvention> {
+java {
     sourceCompatibility = JavaVersion.VERSION_1_9
     targetCompatibility = JavaVersion.VERSION_1_9
+    modularity.inferModulePath.set(true)
 }
+
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "9"
+}
+
+val integTest: SourceSet by sourceSets.creating
+val integTestImplementation by configurations
+
+dependencies {
+    integTestImplementation(project)
+    integTestImplementation(kotlin("test-junit"))
+    integTestImplementation("junit:junit:4.13")
+}
+
+val integTestJarTask = tasks.register<Jar>(integTest.jarTaskName) {
+    archiveClassifier.set("integration-tests")
+    from(integTest.output)
+}
+val integTestTask = tasks.register<Test>("integTest") {
+    testClassesDirs = integTest.output.classesDirs
+    // Make sure we run the 'Jar' containing the tests (and not just the 'classes' folder) so that test resources are also part of the test module
+    classpath = configurations[integTest.runtimeClasspathConfigurationName] + files(integTestJarTask)
 }
 
 tasks {
-    "compileJava"(JavaCompile::class) {
+    compileJava {
         inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = listOf(
-                "--module-path", classpath.asPath,
-                "--patch-module", "$moduleName=${sourceSets["main"].output.asPath}"
-            )
-            classpath = files()
-        }
+        options.compilerArgs = listOf(
+            "--patch-module", "$moduleName=${sourceSets.main.get().output.asPath}"
+        )
     }
+    check { dependsOn(integTestTask) }
 }
