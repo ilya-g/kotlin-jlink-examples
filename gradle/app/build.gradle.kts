@@ -5,8 +5,6 @@ plugins {
     kotlin("jvm")
 }
 
-val kotlinVersion: String by rootProject.extra
-
 val moduleName by extra("org.test.modularApp")
 
 val javaHome = System.getProperty("java.home")
@@ -16,45 +14,37 @@ dependencies {
     testImplementation("junit", "junit", "4.12")
 }
 
-configure<JavaPluginConvention> {
+java {
     sourceCompatibility = JavaVersion.VERSION_1_9
     targetCompatibility = JavaVersion.VERSION_1_9
+    modularity.inferModulePath.set(true)
 }
+
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "9"
 }
 
 tasks {
-    "compileKotlin"(KotlinCompile::class) {
-
-    }
-
-    "compileJava"(JavaCompile::class) {
+    compileJava {
         inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = listOf(
-                "--module-path", classpath.asPath,
-                "--patch-module", "$moduleName=${sourceSets["main"].output.asPath}"
-            )
-            classpath = files()
-        }
+        options.javaModuleMainClass.set("org.test.modularApp.HelloKt")
+        options.compilerArgs = listOf(
+            "--patch-module", "$moduleName=${sourceSets.main.get().output.asPath}"
+        )
     }
-
-    val jar by getting(Jar::class)
 
     val jlink by registering(Exec::class) {
         val outputDir by extra("$buildDir/jlink")
         inputs.files(configurations.runtimeClasspath)
-        inputs.files(jar.archiveFile)
+        inputs.files(jar)
         outputs.dir(outputDir)
-        dependsOn(jar)
         doFirst {
-            val runtimeClasspath = configurations.runtimeClasspath.get()
-            println(runtimeClasspath.toList())
+            val modulePath = files(jar) + configurations.runtimeClasspath.get()
+            logger.lifecycle(modulePath.joinToString("\n", "jlink module path:\n"))
             delete(outputDir)
             commandLine("$javaHome/bin/jlink",
                 "--module-path",
-                listOf("$javaHome/jmods/", runtimeClasspath.asPath, jar.archiveFile.get()).joinToString(File.pathSeparator),
+                listOf("$javaHome/jmods/", modulePath.asPath).joinToString(File.pathSeparator),
                 "--add-modules", moduleName,
                 "--output", outputDir,
                 "--launcher", "modularApp=org.test.modularApp"
@@ -62,6 +52,3 @@ tasks {
         }
     }
 }
-
-// to write module version into module-info, execute right after making Jar:
-// "%JAVA_HOME%/bin/jar.exe" --update --module-version=1.0-SNAPSHOT --file build\libs\app-1.0-SNAPSHOT.jar -C build/classes/java/main module-info.class
