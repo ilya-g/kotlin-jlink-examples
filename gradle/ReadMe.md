@@ -1,11 +1,9 @@
 ## Gradle example of using jlink with Kotlin
 
-This sample project consists of a kotlin library [`modularLib`](library) and kotlin application [`app`](app).
+This sample project consists of a kotlin library [`modularLib`](library) and a kotlin application [`app`](app).
 
-`library` depends on automatic modules `kotlin-stdlib`, `kotlin-stdlib-jdk7/8` etc, 
-while `app` prepends modular versions of these dependencies to the module path. 
-This trick makes the Kotlin compiler, Java compiler and jlink find the requested kotlin standard library modules in these 
-modular artifacts rather than in automatic artifacts that are listed later in the module path.
+The library project has tests that are executed in the modular environment, accessing 
+the main code as a black box, i.e. the tests are located in a separate module.
 
 ### Build instructions
    

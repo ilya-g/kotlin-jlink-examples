@@ -1,11 +1,11 @@
 ## Maven example of using jlink with Kotlin
 
-This sample project consists of a kotlin library [`mavenModularLib`](library) and kotlin application [`mavenModularApp`](app).
+This sample project consists of a kotlin library [`mavenModularLib`](library) and a kotlin application [`mavenModularApp`](app).
 
-Both library and application depend on automatic module artifacts of the Kotlin standard library: `kotlin-stdlib`, `kotlin-stdlib-jdk7/8` etc.
+Both library and application depend on the modular artifacts of the Kotlin standard library: `kotlin-stdlib`, `kotlin-stdlib-jdk7/8` etc.
 
 There's a separate project [`mavenModular-jlinked`](jlinked), that executes jlink goal. It has to exclude all non-modular jars from 
-transitive dependencies and add modular jars instead.
+transitive dependencies.
 
 
 ### Build instructions
