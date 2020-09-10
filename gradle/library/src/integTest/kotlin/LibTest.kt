@@ -1,6 +1,7 @@
 package org.test.modularLib.test
 
 import org.test.modularLib.LibServices
+import kotlin.test.Test
 import kotlin.test.*
 
 class LibTest {
