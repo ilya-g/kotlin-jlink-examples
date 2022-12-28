@@ -8,10 +8,6 @@ plugins {
 base.archivesBaseName = "modularLib"
 val moduleName by extra("org.test.modularLib")
 
-dependencies {
-    api(kotlin("stdlib-jdk8"))
-}
-
 java {
     sourceCompatibility = JavaVersion.VERSION_1_9
     targetCompatibility = JavaVersion.VERSION_1_9
